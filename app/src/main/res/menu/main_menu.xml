@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Accueil"
+        android:id="@+id/accueil"/>
+    <item android:title="Historique"
+        android:id="@+id/upComing"/>
+    <item android:title="Recherche un film"
+        android:id="@+id/RechercheFilm">
+        <menu>
+            <item android:title="Recherche par mots-clés"
+                android:id="@+id/motcle"/>
+            <item android:title="Recherche par Acteur"
+                android:id="@+id/rechercheActeur"/>
+            <item android:title="Recherche par filtre Personnalisé"
+                android:id="@+id/RecherchePerso"/>
+        </menu>
+    </item>
+
+
+</menu>
