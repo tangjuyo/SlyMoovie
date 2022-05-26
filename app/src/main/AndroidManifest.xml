@@ -22,9 +22,6 @@
             android:name=".SearchByActor"
             android:exported="false" />
         <activity
-            android:name=".SearchByGenre"
-            android:exported="false" />
-        <activity
             android:name=".FullSearchDetail"
             android:exported="false" />
         <activity

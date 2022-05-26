@@ -1,20 +1,35 @@
 package fr.iut.InfoFilm;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import fr.iut.InfoFilm.model.Film;
 import fr.iut.InfoFilm.model.Films;
+import fr.iut.InfoFilm.model.HistoSingleton;
+import fr.iut.InfoFilm.model.HorizontalAdapter;
 
 public class FilmDetail extends AppCompatActivity {
 
@@ -24,13 +39,13 @@ public class FilmDetail extends AppCompatActivity {
         setContentView(R.layout.activity_film_detail);
         Film film = null;
         Intent intent = getIntent();
-        System.out.println(intent);
         if (intent != null){
             if (intent.hasExtra("film")){
                 film = intent.getParcelableExtra("film");
-                System.out.println(film.toString());
             }
         }
+
+        saveData(HistoSingleton.getall());
         ImageView img = findViewById(R.id.imgFilm);
         if(film.geturl() == null){
             Picasso.get()
@@ -57,6 +72,15 @@ public class FilmDetail extends AppCompatActivity {
     }
 
 
+    private void saveData(ArrayList f) {
+        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(f);
+        prefsEditor.putString("Histo",json);
+        prefsEditor.commit();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -72,27 +96,22 @@ public class FilmDetail extends AppCompatActivity {
             case R.id.accueil:
                 Intent acceuil = new Intent(this,MainActivity.class);
                 startActivity(acceuil);
-                finish();
                 return true;
-            case R.id.upComing:
+            case R.id.Historique:
                 Intent historique = new Intent(this,Historique.class);
                 startActivity(historique);
-                finish();
                 return true;
             case R.id.motcle:
                 Intent recherchekeywords = new Intent(this,SearchByKeyword.class);
                 startActivity(recherchekeywords);
-                finish();
                 return true;
             case R.id.RecherchePerso:
                 Intent RecherchePerso = new Intent(this,FullSearchDetail.class);
                 startActivity(RecherchePerso);
-                finish();
                 return true;
             case R.id.rechercheActeur:
                 Intent rechercheActeur = new Intent(this,SearchByActor.class);
                 startActivity(rechercheActeur);
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

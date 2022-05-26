@@ -1,7 +1,6 @@
 package fr.iut.InfoFilm;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,8 +13,9 @@ import android.widget.ListView;
 import fr.iut.InfoFilm.model.Film;
 import fr.iut.InfoFilm.model.FilmAdapter;
 import fr.iut.InfoFilm.model.Films;
+import fr.iut.InfoFilm.model.HistoSingleton;
 
-public class ShowResult extends AppCompatActivity {
+public class ShowResult extends Activity {
 
     private Films tab;
     private String BASEIMG = "https://image.tmdb.org/t/p/w500";
@@ -36,12 +36,12 @@ public class ShowResult extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent t = new Intent(ShowResult.this, FilmDetail.class);
+                HistoSingleton.addToSingleton(((Film)adapterView.getItemAtPosition(i)));
                 t.putExtra("film", ((Film)adapterView.getItemAtPosition(i)));
                 startActivity(t);
                 finish();
             }
         });
-
     }
 
 
@@ -60,27 +60,22 @@ public class ShowResult extends AppCompatActivity {
             case R.id.accueil:
                 Intent acceuil = new Intent(this,MainActivity.class);
                 startActivity(acceuil);
-                finish();
                 return true;
-            case R.id.upComing:
+            case R.id.Historique:
                 Intent historique = new Intent(this,Historique.class);
                 startActivity(historique);
-                finish();
                 return true;
             case R.id.motcle:
                 Intent recherchekeywords = new Intent(this,SearchByKeyword.class);
                 startActivity(recherchekeywords);
-                finish();
                 return true;
             case R.id.RecherchePerso:
                 Intent RecherchePerso = new Intent(this,FullSearchDetail.class);
                 startActivity(RecherchePerso);
-                finish();
                 return true;
             case R.id.rechercheActeur:
                 Intent rechercheActeur = new Intent(this,SearchByActor.class);
                 startActivity(rechercheActeur);
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

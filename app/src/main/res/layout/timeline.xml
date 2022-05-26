@@ -1,0 +1,73 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- the circular icon on the left -->
+    <ImageView
+        android:id="@+id/imgVue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="24dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_launcher_background" />
+
+    <!-- the blue line -->
+
+    <RelativeLayout
+        android:id="@+id/item_line"
+        android:layout_width="15dp"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <!-- the semi transparent circle on the line -->
+
+
+        <RelativeLayout
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:background="#2196F3" />
+        <View
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/layout_bg" />
+
+    </RelativeLayout>
+
+    <!-- views at the right of the blue line -->
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingBottom="32dp"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <!-- other views -->
+        <RatingBar
+            android:id="@+id/note"
+            style="?attr/ratingBarStyleIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_title"
+            android:layout_marginTop="0dp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

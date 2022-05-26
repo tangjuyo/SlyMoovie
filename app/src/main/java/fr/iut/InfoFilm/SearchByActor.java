@@ -62,15 +62,24 @@ public class SearchByActor extends AppCompatActivity {
                                             result.getAsJsonArray("results").get(n).getAsJsonObject().get("overview").toString().split("\"")[1]
                                     );
                                 }catch (ArrayIndexOutOfBoundsException z){
-                                    try{
-                                        f =new Film(
+                                    try {
+                                        f = new Film(
                                                 result.getAsJsonArray("results").get(n).getAsJsonObject().get("title").toString().split("\"")[1],
-                                                null,
+                                                BASEIMG + result.getAsJsonArray("results").get(n).getAsJsonObject().get("poster_path").toString().split("\"")[1],
                                                 Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().get("vote_average").toString()),
-                                                null
+                                                "Pas de résumé trouvé sur l'API"
                                         );
-                                    }catch (NullPointerException ezva){
-                                        Log.i("erreur","l'erreur est " + z,null);
+                                    }catch (ArrayIndexOutOfBoundsException azzrh) {
+                                        try {
+                                            f = new Film(
+                                                    result.getAsJsonArray("results").get(n).getAsJsonObject().get("title").toString().split("\"")[1],
+                                                    null,
+                                                    Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().get("vote_average").toString()),
+                                                    "Pas de résumé trouvé sur l'API"
+                                            );
+                                        }catch (NullPointerException ageag){
+                                            Log.i("erreur","l'erreur est " + z,null);
+                                        }
                                     }
 
                                 }
@@ -104,7 +113,6 @@ public class SearchByActor extends AppCompatActivity {
 
         String url = "https://api.themoviedb.org/3/search/person?api_key="+ APIKEY + "&language=fr&query=" + t.getText().toString().replace(" ","%20")
                 +"&page=1&include_adult=false";
-        System.out.println(url);
         Ion.getDefault(getApplicationContext()).getConscryptMiddleware().enable(false);
 
         Ion.with(getApplicationContext())
@@ -113,50 +121,64 @@ public class SearchByActor extends AppCompatActivity {
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        System.out.println(result.getAsJsonArray("results").size());
                         Films films = new Films();
                         for(int n = 0; n<result.getAsJsonArray("results").size();n++){
                             for (int h = 0; h< result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").size();h++){
-                                System.out.println(result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(0).getAsJsonObject().get("title").toString());
-                                System.out.println(result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(0).getAsJsonObject().get("poster_path").toString());
                                 Film f = null;
                                 try{
-                                    f = new Film(
-                                            result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("title").toString().split("\"")[1],
-                                            BASEIMG + result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("poster_path").toString().split("\"")[1],
-                                            Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("vote_average").toString()),
-                                            result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("title").toString().split("\"")[1]
-                                    );
-                                }catch (ArrayIndexOutOfBoundsException t){
+                                    String title = result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("title").toString().split("\"")[1];
                                     try{
-                                        f =new Film(
-                                                result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(0).getAsJsonObject().get("title").toString().split("\"")[1],
-                                                null,
+                                        f = new Film(
+                                                result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("title").toString().split("\"")[1],
+                                                BASEIMG + result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("poster_path").toString().split("\"")[1],
                                                 Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("vote_average").toString()),
-                                                result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("title").toString().split("\"")[1]
-
+                                                result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("overview").toString().split("\"")[1]
                                         );
-                                    }catch (ArrayIndexOutOfBoundsException z){
+                                    }catch (ArrayIndexOutOfBoundsException t){
                                         try{
                                             f =new Film(
-                                                    result.getAsJsonArray("results").get(n).getAsJsonObject().get("title").toString().split("\"")[1],
+                                                    result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(0).getAsJsonObject().get("title").toString().split("\"")[1],
                                                     null,
-                                                    Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().get("vote_average").toString()),
-                                                    null
-                                            );
-                                        }catch (NullPointerException ezva){
-                                            Log.i("erreur","l'erreur est " + z,null);
-                                        }
+                                                    Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("vote_average").toString()),
+                                                    result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("overview").toString().split("\"")[1]
 
+                                            );
+                                        }catch (ArrayIndexOutOfBoundsException z){
+                                            try {
+                                                f = new Film(
+                                                        result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(0).getAsJsonObject().get("title").toString().split("\"")[1],
+                                                        BASEIMG + result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("poster_path").toString().split("\"")[1],
+                                                        Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("vote_average").toString()),
+                                                        "Pas de résumé trouvé sur l'API"
+                                                );
+                                            }catch (ArrayIndexOutOfBoundsException azzrh) {
+                                                try {
+                                                    f = new Film(
+                                                            result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(0).getAsJsonObject().get("title").toString().split("\"")[1],
+                                                            null,
+                                                            Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().getAsJsonArray("known_for").get(h).getAsJsonObject().get("vote_average").toString()),
+                                                            "Pas de résumé trouvé sur l'API"
+                                                    );
+                                                }catch (NullPointerException eg){
+                                                    Log.i("erreur","l'erreur est " + z,null);
+                                                }
+                                            }
+
+                                        }
                                     }
+                                }catch (NullPointerException z){
+                                    f  = null;
                                 }
-                                films.add(f);
+                                if (f==null){
+
+                                }else{
+                                    films.add(f);
+                                }
                             }
                         }
                         Intent t = new Intent(SearchByActor.this,ShowResult.class);
                         t.putExtra("tab",films);
                         startActivity(t);
-                        finish();
                     }
                 });
 
@@ -177,27 +199,22 @@ public class SearchByActor extends AppCompatActivity {
             case R.id.accueil:
                 Intent acceuil = new Intent(this,MainActivity.class);
                 startActivity(acceuil);
-                finish();
                 return true;
-            case R.id.upComing:
+            case R.id.Historique:
                 Intent historique = new Intent(this,Historique.class);
                 startActivity(historique);
-                finish();
                 return true;
             case R.id.motcle:
                 Intent recherchekeywords = new Intent(this,SearchByKeyword.class);
                 startActivity(recherchekeywords);
-                finish();
                 return true;
             case R.id.RecherchePerso:
                 Intent RecherchePerso = new Intent(this,FullSearchDetail.class);
                 startActivity(RecherchePerso);
-                finish();
                 return true;
             case R.id.rechercheActeur:
                 Intent rechercheActeur = new Intent(this,SearchByActor.class);
                 startActivity(rechercheActeur);
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

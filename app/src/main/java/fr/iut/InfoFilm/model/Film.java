@@ -3,7 +3,22 @@ package fr.iut.InfoFilm.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 public class Film implements Parcelable{
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Film film = (Film) o;
+        return Objects.equals(name, film.name) && Objects.equals(urlImg, film.urlImg) && Objects.equals(notes, film.notes) && Objects.equals(resumee, film.resumee);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, urlImg, notes, resumee);
+    }
+
     private String name;
     private String urlImg;
     private Float notes;
@@ -54,7 +69,7 @@ public class Film implements Parcelable{
     }
 
     public String toString(){
-        return "Film :" +this.getName() +"\n url :" + this.geturl() + "\n la note : "+ this.notes +"\n le résumée :" + this.getResumee();
+        return "Film :" +this.getName() +" url :" + this.geturl() + " la note : "+ this.getNotes() +" le résumée :" + this.getResumee() + "\n";
     }
 
     @Override

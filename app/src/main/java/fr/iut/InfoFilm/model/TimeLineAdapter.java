@@ -5,7 +5,10 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,30 +20,27 @@ import java.util.ArrayList;
 
 import fr.iut.InfoFilm.FilmDetail;
 import fr.iut.InfoFilm.R;
-import fr.iut.InfoFilm.SearchByKeyword;
-import fr.iut.InfoFilm.ShowResult;
 
-public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.HorizontalViewHolder> {
+public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder>{
+
 
     private ArrayList<Film> films;
 
 
 
-    public HorizontalAdapter(ArrayList<Film> items) {
-
+    public TimeLineAdapter(ArrayList<Film> items) {
         this.films = items;
-
     }
-
     @Override
-    public HorizontalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.simple_vue_movie, parent, false);
+        View view = inflater.inflate(R.layout.timeline, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 for(Film f : films){
-                    if(f.getName().equals(((TextView) view.findViewById(R.id.title_movie)).getText().toString())){
+                    if(f.getName().equals(((TextView) view.findViewById(R.id.item_title)).getText().toString())){
                         Intent t = new Intent(parent.getContext(), FilmDetail.class);
                         HistoSingleton.addToSingleton(f);
                         t.putExtra("film",f);
@@ -49,15 +49,17 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
                 }
             }
         });
-        return new HorizontalViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position) {
-
-        ImageView img = holder.itemView.findViewById(R.id.imgMovie);
-        TextView txt = holder.itemView.findViewById(R.id.title_movie);
-
+    public void onBindViewHolder(final ViewHolder holder,int position) {
+        TextView title = holder.itemView.findViewById(R.id.item_title);
+        RatingBar note = holder.itemView.findViewById(R.id.note);
+        note.setRating((films.get(position).getNotes()/2));
+        title.setText(films.get(position).getName());
+        //load l'image sur la timeline
+        ImageView img = holder.itemView.findViewById(R.id.imgVue);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             try{
                 if(films.get(position).geturl() == null){
@@ -82,25 +84,20 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
                         .into(img);
             }
         }
-        try{
-            txt.setText(films.get(position).getName());
-        }catch (NullPointerException e){
-            txt.setText("/!\\ No Title Found /!\\");
-        }
     }
 
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            TextView mItemTitle = (TextView) itemView.findViewById(R.id.item_title);
+            RatingBar mItemSubtitle = (RatingBar) itemView.findViewById(R.id.note);
+            RelativeLayout mItemLine = (RelativeLayout) itemView.findViewById(R.id.item_line);
+        }
+    }
 
     @Override
     public int getItemCount() {
         return films.size();
     }
-
-    public class HorizontalViewHolder extends RecyclerView.ViewHolder {
-
-        public HorizontalViewHolder(View itemView) {
-            super(itemView);
-            ImageView imgMovie = (ImageView) itemView.findViewById(R.id.imgMovie);
-            TextView title = (TextView) itemView.findViewById(R.id.title_movie);
-        } }
 }
-

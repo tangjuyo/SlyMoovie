@@ -61,15 +61,24 @@ public class SearchByKeyword extends AppCompatActivity {
                                             result.getAsJsonArray("results").get(n).getAsJsonObject().get("overview").toString().split("\"")[1]
                                     );
                                 }catch (ArrayIndexOutOfBoundsException z){
-                                    try{
-                                        f =new Film(
+                                    try {
+                                        f = new Film(
                                                 result.getAsJsonArray("results").get(n).getAsJsonObject().get("title").toString().split("\"")[1],
-                                                null,
+                                                BASEIMG + result.getAsJsonArray("results").get(n).getAsJsonObject().get("poster_path").toString().split("\"")[1],
                                                 Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().get("vote_average").toString()),
-                                                null
+                                                "Pas de résumé trouvé sur l'API"
                                         );
-                                    }catch (NullPointerException ezva){
-                                        Log.i("erreur","l'erreur est " + z,null);
+                                    }catch (ArrayIndexOutOfBoundsException azzrh) {
+                                        try {
+                                            f = new Film(
+                                                    result.getAsJsonArray("results").get(n).getAsJsonObject().get("title").toString().split("\"")[1],
+                                                    null,
+                                                    Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().get("vote_average").toString()),
+                                                    "Pas de résumé trouvé sur l'API"
+                                            );
+                                        }catch (NullPointerException ageag){
+                                            Log.i("erreur","l'erreur est " + z,null);
+                                        }
                                     }
 
                                 }
@@ -134,17 +143,25 @@ public class SearchByKeyword extends AppCompatActivity {
                                             result.getAsJsonArray("results").get(n).getAsJsonObject().get("overview").toString().split("\"")[1]
                                     );
                                 }catch (ArrayIndexOutOfBoundsException z){
-                                    try{
-                                        f =new Film(
+                                    try {
+                                        f = new Film(
                                                 result.getAsJsonArray("results").get(n).getAsJsonObject().get("title").toString().split("\"")[1],
-                                                null,
+                                                BASEIMG + result.getAsJsonArray("results").get(n).getAsJsonObject().get("poster_path").toString().split("\"")[1],
                                                 Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().get("vote_average").toString()),
-                                                null
+                                                "Pas de résumé trouvé sur l'API"
                                         );
-                                    }catch (NullPointerException ezva){
-                                        Log.i("erreur","l'erreur est " + z,null);
+                                    }catch (ArrayIndexOutOfBoundsException azzrh) {
+                                        try {
+                                            f = new Film(
+                                                    result.getAsJsonArray("results").get(n).getAsJsonObject().get("title").toString().split("\"")[1],
+                                                    null,
+                                                    Float.parseFloat(result.getAsJsonArray("results").get(n).getAsJsonObject().get("vote_average").toString()),
+                                                    "Pas de résumé trouvé sur l'API"
+                                            );
+                                        }catch (NullPointerException eg){
+                                            Log.i("erreur","l'erreur est " + z,null);
+                                        }
                                     }
-
                                 }
                             }
                             films.add(f);
@@ -152,7 +169,6 @@ public class SearchByKeyword extends AppCompatActivity {
                         Intent t = new Intent(SearchByKeyword.this,ShowResult.class);
                         t.putExtra("tab",films);
                         startActivity(t);
-                        finish();
                     }
                 });
 
@@ -174,27 +190,22 @@ public class SearchByKeyword extends AppCompatActivity {
             case R.id.accueil:
                 Intent acceuil = new Intent(this,MainActivity.class);
                 startActivity(acceuil);
-                finish();
                 return true;
-            case R.id.upComing:
+            case R.id.Historique:
                 Intent historique = new Intent(this,Historique.class);
                 startActivity(historique);
-                finish();
                 return true;
             case R.id.motcle:
                 Intent recherchekeywords = new Intent(this,SearchByKeyword.class);
                 startActivity(recherchekeywords);
-                finish();
                 return true;
             case R.id.RecherchePerso:
                 Intent RecherchePerso = new Intent(this,FullSearchDetail.class);
                 startActivity(RecherchePerso);
-                finish();
                 return true;
             case R.id.rechercheActeur:
                 Intent rechercheActeur = new Intent(this,SearchByActor.class);
                 startActivity(rechercheActeur);
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

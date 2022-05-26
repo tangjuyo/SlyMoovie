@@ -3,7 +3,7 @@
     <item android:title="Accueil"
         android:id="@+id/accueil"/>
     <item android:title="Historique"
-        android:id="@+id/upComing"/>
+        android:id="@+id/Historique"/>
     <item android:title="Recherche un film"
         android:id="@+id/RechercheFilm">
         <menu>
